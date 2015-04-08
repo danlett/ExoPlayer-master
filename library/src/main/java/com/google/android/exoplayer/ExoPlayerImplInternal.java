@@ -418,6 +418,12 @@ import java.util.List;
       }
     }
     this.bufferedPositionUs = bufferedPositionUs;
+      //Log.d("","BL:"+(bufferedPositionUs-positionUs)/1000f);
+      String bufferLength;
+      if(bufferedPositionUs==-1)
+          bufferLength="-";
+      else bufferLength = ""+(bufferedPositionUs-positionUs)/1000000f;
+      LoggerSingleton.getInstance().bufferLength=bufferLength;
 
     if (isEnded) {
       setState(ExoPlayer.STATE_ENDED);
@@ -441,6 +447,7 @@ import java.util.List;
     }
 
     TraceUtil.endSection();
+
   }
 
   private void scheduleNextOperation(int operationType, long thisOperationStartTimeMs,

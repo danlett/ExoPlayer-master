@@ -126,6 +126,8 @@ public interface ExoPlayer {
      *     not due to a user action such as starting playback or seeking).
      */
     public static ExoPlayer newInstance(int rendererCount, int minBufferMs, int minRebufferMs) {
+      LoggerSingleton.mInstance=null;
+      LoggerSingleton.getInstance().minBufferTime=DEFAULT_MIN_BUFFER_MS+" msec";
       return new ExoPlayerImpl(rendererCount, minBufferMs, minRebufferMs);
     }
 

@@ -28,10 +28,11 @@ public final class UriDataSource implements DataSource {
 
   private final DataSource fileDataSource;
   private final DataSource httpDataSource;
+  //private final DataSource okHttpDataSource;
 
   /**
    * {@code null} if no data source is open. Otherwise, equal to {@link #fileDataSource} if the open
-   * data source is a file, or {@link #httpDataSource} otherwise.
+   * data source is a file, or { #httpDataSource} otherwise.
    */
   private DataSource dataSource;
 
@@ -44,7 +45,9 @@ public final class UriDataSource implements DataSource {
    */
   public UriDataSource(String userAgent, TransferListener transferListener) {
     this(new FileDataSource(transferListener),
-        new HttpDataSource(userAgent, null, transferListener));
+       new HttpDataSource(userAgent, null, transferListener));
+    //this(new FileDataSource(transferListener),
+    //        new OkHttpDataSource(userAgent,null,transferListener));
   }
 
   /**
@@ -57,12 +60,14 @@ public final class UriDataSource implements DataSource {
   public UriDataSource(DataSource fileDataSource, DataSource httpDataSource) {
     this.fileDataSource = Assertions.checkNotNull(fileDataSource);
     this.httpDataSource = Assertions.checkNotNull(httpDataSource);
+    //this.okHttpDataSource = Assertions.checkNotNull(httpDataSource);
   }
 
   @Override
   public long open(DataSpec dataSpec) throws IOException {
     Assertions.checkState(dataSource == null);
     dataSource = FILE_URI_SCHEME.equals(dataSpec.uri.getScheme()) ? fileDataSource : httpDataSource;
+    //dataSource = FILE_URI_SCHEME.equals(dataSpec.uri.getScheme()) ? fileDataSource : okHttpDataSource;
     return dataSource.open(dataSpec);
   }
 

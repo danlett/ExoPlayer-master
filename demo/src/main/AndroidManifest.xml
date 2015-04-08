@@ -60,8 +60,12 @@
             android:theme="@style/PlayerTheme" />
         <activity
             android:name=".OpenActivity"
-            android:theme="@android:style/Theme.Dialog"
-            android:label="@string/title_activity_open" >
+            android:label="@string/title_activity_open"
+            android:theme="@android:style/Theme.Dialog" >
+        </activity>
+        <activity
+            android:name=".simple.InfoActivity"
+            android:label="@string/title_activity_info">
         </activity>
     </application>
 

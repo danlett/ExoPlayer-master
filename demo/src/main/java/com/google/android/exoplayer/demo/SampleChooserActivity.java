@@ -44,7 +44,7 @@ public class SampleChooserActivity extends Activity {
 
   public static final int OPEN_DIALOG = 1;
 
-  @Override
+    @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.sample_chooser_activity);

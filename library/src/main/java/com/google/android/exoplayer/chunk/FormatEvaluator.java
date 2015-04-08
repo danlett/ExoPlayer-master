@@ -17,10 +17,12 @@ package com.google.android.exoplayer.chunk;
 
 import android.util.Log;
 
+import com.google.android.exoplayer.LoggerSingleton;
 import com.google.android.exoplayer.upstream.BandwidthMeter;
 
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Logger;
 
 /**
  * Selects from a number of available formats during playback.
@@ -96,6 +98,7 @@ public interface FormatEvaluator {
 
     public Evaluation() {
       trigger = TRIGGER_INITIAL;
+        Log.d("","Initial evaluator.");
     }
 
   }
@@ -119,6 +122,7 @@ public interface FormatEvaluator {
     public void evaluate(List<? extends MediaChunk> queue, long playbackPositionUs,
         Format[] formats, Evaluation evaluation) {
       evaluation.format = formats[0];
+        Log.d("","Fixed evaluator.");
     }
 
   }
@@ -153,6 +157,7 @@ public interface FormatEvaluator {
       }
       evaluation.format = newFormat;
     }
+
 
   }
 
@@ -273,13 +278,21 @@ public interface FormatEvaluator {
         evaluation.trigger = FormatEvaluator.TRIGGER_ADAPTIVE;
       }
       evaluation.format = ideal;
-        if(ideal !=null)
-            Log.d("EventLogger","Ideal format: "+ideal.width+"x"+ideal.height+" "+ideal.bitrate/1024.0f/1024.f+" Mb/s");
-        if(current != null)
-            Log.d("EventLogger","Current format: "+current.width+"x"+current.height+" "+current.bitrate/1024.0f/1024.0f+" Mb/s");
-        Log.d("EventLogger","Available formats:");
-        for(int i=0;i<formats.length;i++)
-            Log.d("EventLogger",+formats[i].width+"x"+formats[i].height+" "+formats[i].bitrate/1024.0f/1024.0f+" Mb/s");
+        if(ideal !=null) {
+            //Log.d("EventLogger","Ideal format: "+ideal.width+"x"+ideal.height+" "+ideal.bitrate/1024.0f/1024.f+" Mb/s");
+            LoggerSingleton.getInstance().idealFormat = ideal.width + "x" + ideal.height + " " + ideal.bitrate / 1024.0f / 1024.f + " Mb/s";
+        }
+        if(current != null) {
+            LoggerSingleton.getInstance().currentFormat=current.width + "x" + current.height + " " + current.bitrate / 1024.0f / 1024.0f + " Mb/s";
+        }
+        StringBuilder s = new StringBuilder();
+        //Log.d("EventLogger","Available formats:");
+        for(int i=0;i<formats.length;i++) {
+            s.append(formats[i].width + "x" + formats[i].height + " " + formats[i].bitrate / 1024.0f / 1024.0f + " Mb/s\n");
+            //Log.d("EventLogger",+formats[i].width+"x"+formats[i].height+" "+formats[i].bitrate/1024.0f/1024.0f+" Mb/s");
+        }
+        LoggerSingleton.getInstance().availableFormats=s.toString();
+        Log.d("","Adaptive evaluator.");
     }
 
     /**

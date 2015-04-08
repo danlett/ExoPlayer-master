@@ -16,6 +16,7 @@
 package com.google.android.exoplayer.demo.full.player;
 
 import com.google.android.exoplayer.ExoPlaybackException;
+import com.google.android.exoplayer.LoggerSingleton;
 import com.google.android.exoplayer.MediaCodecTrackRenderer;
 import com.google.android.exoplayer.TrackRenderer;
 import com.google.android.exoplayer.chunk.ChunkSampleSource;
@@ -35,6 +36,8 @@ import android.widget.TextView;
 
   private volatile boolean pendingFailure;
   private volatile long currentPositionUs;
+
+  public static long bufferlength=-1;
 
   public DebugTrackRenderer(TextView textView, MediaCodecTrackRenderer renderer) {
     this(textView, renderer, null);
@@ -82,13 +85,13 @@ import android.widget.TextView;
   }
 
   private String getRenderString() {
-    return "ms(" + (currentPositionUs / 1000) + "), " + getQualityString() +
+    return "buf("+LoggerSingleton.getInstance().bufferLength+"),ms(" + (currentPositionUs / 1000) + "), " + getQualityString() +
         ", " + renderer.codecCounters.getDebugString();
   }
 
   private String getQualityString() {
     Format format = videoSampleSource == null ? null : videoSampleSource.getFormat();
-    return format == null ? "null" : "height(" + format.height + "), itag(" + format.id + ")";
+    return format == null ? "null" : "height(" + format.height + "), itag(" + format.id + ") format:"+LoggerSingleton.getInstance().currentFormat ;
   }
 
   @Override

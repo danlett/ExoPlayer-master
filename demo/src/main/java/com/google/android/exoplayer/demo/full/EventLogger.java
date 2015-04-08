@@ -16,6 +16,7 @@
 package com.google.android.exoplayer.demo.full;
 
 import com.google.android.exoplayer.ExoPlayer;
+import com.google.android.exoplayer.LoggerSingleton;
 import com.google.android.exoplayer.MediaCodecTrackRenderer.DecoderInitializationException;
 import com.google.android.exoplayer.audio.AudioTrack;
 import com.google.android.exoplayer.demo.full.player.DemoPlayer;
@@ -116,12 +117,14 @@ public class EventLogger implements DemoPlayer.Listener, DemoPlayer.InfoListener
   public void onVideoFormatEnabled(String formatId, int trigger, int mediaTimeMs) {
     Log.d(TAG, "videoFormat [" + getSessionTimeString() + ", " + formatId + ", " +
         Integer.toString(trigger) + "]");
+      LoggerSingleton.getInstance().videoCodec=formatId;
   }
 
   @Override
   public void onAudioFormatEnabled(String formatId, int trigger, int mediaTimeMs) {
     Log.d(TAG, "audioFormat [" + getSessionTimeString() + ", " + formatId + ", " +
         Integer.toString(trigger) + "]");
+    LoggerSingleton.getInstance().audioCodec=formatId;
   }
 
   // DemoPlayer.InternalErrorListener

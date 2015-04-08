@@ -34,7 +34,7 @@ public class VerboseLogUtil {
    */
   public static void setEnabledTags(String... tags) {
     enabledTags = tags;
-    enableAllTags = false;
+    enableAllTags = true;
   }
 
   /**

@@ -6,7 +6,7 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.google.android.exoplayer.demo.OpenActivity">
 
-    <TextView android:text="DASH URL megnyitása" android:layout_width="wrap_content"
+    <TextView android:text="DASH URL open" android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView" />
 
@@ -23,7 +23,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Megnyitás"
+        android:text="Open"
         android:id="@+id/button"
         android:layout_below="@+id/editText"
         android:layout_alignParentLeft="true"

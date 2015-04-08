@@ -15,6 +15,8 @@
  */
 package com.google.android.exoplayer.chunk;
 
+import android.util.Log;
+
 import com.google.android.exoplayer.C;
 import com.google.android.exoplayer.MediaFormat;
 import com.google.android.exoplayer.TrackInfo;

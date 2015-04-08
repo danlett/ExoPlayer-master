@@ -102,6 +102,12 @@
           android:visibility="gone"
           style="@style/DemoButton"/>
 
+      <Button android:id="@+id/info_controls"
+          android:layout_width="wrap_content"
+          android:text="Info"
+          android:layout_height="wrap_content"
+          android:onClick="showInfoWindow"/>
+
     </LinearLayout>
 
   </LinearLayout>

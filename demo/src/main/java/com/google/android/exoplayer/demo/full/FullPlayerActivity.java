@@ -24,6 +24,7 @@ import com.google.android.exoplayer.demo.full.player.DefaultRendererBuilder;
 import com.google.android.exoplayer.demo.full.player.DemoPlayer;
 import com.google.android.exoplayer.demo.full.player.DemoPlayer.RendererBuilder;
 import com.google.android.exoplayer.demo.full.player.SmoothStreamingRendererBuilder;
+import com.google.android.exoplayer.demo.simple.InfoActivity;
 import com.google.android.exoplayer.text.CaptionStyleCompat;
 import com.google.android.exoplayer.text.SubtitleView;
 import com.google.android.exoplayer.util.Util;
@@ -333,6 +334,11 @@ public class FullPlayerActivity extends Activity implements SurfaceHolder.Callba
       }
     });
     popup.show();
+  }
+
+  public void showInfoWindow(View v){
+      Intent i = new Intent(FullPlayerActivity.this, InfoActivity.class);
+      startActivity(i);
   }
 
   private void configurePopupWithTracks(PopupMenu popup,

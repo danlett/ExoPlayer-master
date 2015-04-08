@@ -35,6 +35,8 @@ android {
 }
 
 dependencies {
+    compile 'com.squareup.okhttp:okhttp-urlconnection:2.3.0'
+    compile 'com.squareup.okio:okio:1.3.0'
 }
 
 android.libraryVariants.all { variant ->
