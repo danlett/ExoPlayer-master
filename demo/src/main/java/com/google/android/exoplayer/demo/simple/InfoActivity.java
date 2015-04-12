@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.android.exoplayer.LoggerSingleton;
@@ -15,7 +16,7 @@ public class InfoActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info);
-        TextView t = (TextView) findViewById(R.id.textInfoWindow);
+        EditText t = (EditText) findViewById(R.id.textInfoWindow);
         t.setText("Media codec information:\n"+LoggerSingleton.getInstance().videoCodec
                 +" "+LoggerSingleton.getInstance().audioCodec
         +"\n\nAvailable video formats:\n"+LoggerSingleton.getInstance().availableFormats+

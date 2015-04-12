@@ -82,6 +82,7 @@ public class OkHttpDataSource implements DataSource {
         client2 = new OkHttpClient();
         Request request = new Request.Builder()
                 .url(dataSpec.uri.toString())
+                .addHeader("Range", buildRangeHeader(dataSpec))
                 .get()
                 .build();
 
@@ -157,12 +158,12 @@ public class OkHttpDataSource implements DataSource {
                 throw new Exception();
             }
 
-            inputStream = connection.getInputStream();
+            inputStream = connection.getInputStream();*/
             opened = true;
             if (listener != null) {
                 listener.onTransferStart();
             }
-
+/*
 
         }catch (Exception e){
             e.printStackTrace();
