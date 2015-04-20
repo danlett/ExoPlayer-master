@@ -122,7 +122,6 @@ public interface FormatEvaluator {
     public void evaluate(List<? extends MediaChunk> queue, long playbackPositionUs,
         Format[] formats, Evaluation evaluation) {
       evaluation.format = formats[0];
-        Log.d("","Fixed evaluator.");
     }
 
   }
@@ -243,6 +242,7 @@ public interface FormatEvaluator {
           : queue.get(queue.size() - 1).endTimeUs - playbackPositionUs;
       Format current = evaluation.format;
       Format ideal = determineIdealFormat(formats, bandwidthMeter.getBitrateEstimate());
+
       boolean isHigher = ideal != null && current != null && ideal.bitrate > current.bitrate;
       boolean isLower = ideal != null && current != null && ideal.bitrate < current.bitrate;
       if (isHigher) {
@@ -287,18 +287,24 @@ public interface FormatEvaluator {
         }
         StringBuilder s = new StringBuilder();
         //Log.d("EventLogger","Available formats:");
+        LoggerSingleton.getInstance().availableFormats=new String[formats.length];
         for(int i=0;i<formats.length;i++) {
-            s.append(formats[i].width + "x" + formats[i].height + " " + formats[i].bitrate / 1024.0f / 1024.0f + " Mb/s\n");
+            //s.append(formats[i].width + "x" + formats[i].height + " " + formats[i].bitrate / 1024.0f / 1024.0f + " Mb/s\n");
+            LoggerSingleton.getInstance().availableFormats[i]=formats[i].width + "x" + formats[i].height + " " + formats[i].bitrate / 1024.0f / 1024.0f + " Mb/s\n";
             //Log.d("EventLogger",+formats[i].width+"x"+formats[i].height+" "+formats[i].bitrate/1024.0f/1024.0f+" Mb/s");
         }
-        LoggerSingleton.getInstance().availableFormats=s.toString();
-        Log.d("","Adaptive evaluator.");
     }
 
     /**
      * Compute the ideal format ignoring buffer health.
      */
     protected Format determineIdealFormat(Format[] formats, long bitrateEstimate) {
+      // Forcing ideal format
+      if(LoggerSingleton.getInstance().forcedFormat!=-1){
+          return formats[LoggerSingleton.getInstance().forcedFormat];
+      }
+
+
       long effectiveBitrate = computeEffectiveBitrateEstimate(bitrateEstimate);
       for (int i = 0; i < formats.length; i++) {
         Format format = formats[i];

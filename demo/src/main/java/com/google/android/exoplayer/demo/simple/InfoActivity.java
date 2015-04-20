@@ -19,7 +19,10 @@ public class InfoActivity extends Activity {
         EditText t = (EditText) findViewById(R.id.textInfoWindow);
         t.setText("Media codec information:\n"+LoggerSingleton.getInstance().videoCodec
                 +" "+LoggerSingleton.getInstance().audioCodec
-        +"\n\nAvailable video formats:\n"+LoggerSingleton.getInstance().availableFormats+
+        +"\n\nAvailable video formats:\n");
+        for(int i=0;i<LoggerSingleton.getInstance().availableFormats.length;i++)
+            t.append(LoggerSingleton.getInstance().availableFormats[i]);
+        t.append(
         "\nIdeal format:\n"+LoggerSingleton.getInstance().idealFormat+
         "\n\nCurrent format:\n"+LoggerSingleton.getInstance().currentFormat+
         "\n\nMinimum buffer time:\n"+LoggerSingleton.getInstance().minBufferTime);

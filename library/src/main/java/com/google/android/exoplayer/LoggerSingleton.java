@@ -8,11 +8,12 @@ public class LoggerSingleton {
 
     public String bufferLength;
     public String currentFormat;
-    public String availableFormats;
+    public String[] availableFormats;
     public String videoCodec;
     public String audioCodec;
     public String idealFormat;
     public String minBufferTime;
+    public int forcedFormat=-1;
 
     protected LoggerSingleton(){}
 

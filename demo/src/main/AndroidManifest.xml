@@ -64,6 +64,7 @@
             android:theme="@android:style/Theme.Dialog" >
         </activity>
         <activity
+            android:theme="@android:style/Theme.Dialog"
             android:name=".simple.InfoActivity"
             android:label="@string/title_activity_info">
         </activity>

@@ -16,6 +16,7 @@
 package com.google.android.exoplayer.demo.full;
 
 import com.google.android.exoplayer.ExoPlayer;
+import com.google.android.exoplayer.LoggerSingleton;
 import com.google.android.exoplayer.VideoSurfaceView;
 import com.google.android.exoplayer.demo.DemoUtil;
 import com.google.android.exoplayer.demo.R;
@@ -38,6 +39,7 @@ import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -53,6 +55,8 @@ import android.widget.MediaController;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 /**
  * An activity that plays media using {@link DemoPlayer}.
@@ -284,7 +288,32 @@ public class FullPlayerActivity extends Activity implements SurfaceHolder.Callba
 
   public void showVideoPopup(View v) {
     PopupMenu popup = new PopupMenu(this, v);
-    configurePopupWithTracks(popup, null, DemoPlayer.TYPE_VIDEO);
+    Menu menu = popup.getMenu();
+    if(LoggerSingleton.getInstance().availableFormats!=null){
+        for(int i=0;i<LoggerSingleton.getInstance().availableFormats.length;i++){
+            menu.add(Menu.NONE,100+i,10,i+". "+LoggerSingleton.getInstance().availableFormats[i]);
+            MenuItem mi = menu.findItem(100+i);
+            mi.setCheckable(true);
+            if(i==LoggerSingleton.getInstance().forcedFormat)
+                mi.setChecked(true);
+        }
+        OnMenuItemClickListener clickListener = new OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if (item.getItemId()>99) {
+                    if(LoggerSingleton.getInstance().forcedFormat==item.getItemId()-100)
+                        LoggerSingleton.getInstance().forcedFormat=-1;
+                    else
+                        LoggerSingleton.getInstance().forcedFormat=item.getItemId()-100;
+                    return true;
+                }
+                return false;
+            }
+        };
+        configurePopupWithTracks(popup, clickListener, DemoPlayer.TYPE_VIDEO);
+    }
+    else
+        configurePopupWithTracks(popup, null, DemoPlayer.TYPE_VIDEO);
     popup.show();
   }
 
@@ -348,6 +377,10 @@ public class FullPlayerActivity extends Activity implements SurfaceHolder.Callba
       return;
     }
     String[] tracks = player.getTracks(trackType);
+    //adding formats to the video popup list
+    //if(trackType == DemoPlayer.TYPE_VIDEO && LoggerSingleton.getInstance().availableFormats.length!=0){
+     //   tracks = LoggerSingleton.getInstance().availableFormats;
+    //}
     if (tracks == null) {
       return;
     }
