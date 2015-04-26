@@ -42,8 +42,7 @@
   <string name="drm_not_supported">Protected content not supported on API levels below 18</string>
 
   <string name="failed">Playback failed.</string>
-    <string name="menuItemOpen">Open...</string>
-    <string name="menuItemSettings">Options...</string>
+    <string name="menuItemOpen">Open DASH URL ...</string>
     <string name="title_activity_open">Open</string>
 
     <string name="hello_world">InfoWindow Details</string>

@@ -23,6 +23,7 @@ import com.google.android.exoplayer.util.Util;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -37,12 +38,20 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 /**
  * An activity for selecting from a number of samples.
  */
 public class SampleChooserActivity extends Activity {
 
   public static final int OPEN_DIALOG = 1;
+    private static String PREF_RECENT_1 ="sharedpreferencesrecent1";
+    private static String PREF_RECENT_2 ="sharedpreferencesrecent2";
+    private static String PREF_RECENT_3 ="sharedpreferencesrecent3";
+    private static String PREF_RECENT_4 ="sharedpreferencesrecent4";
+    private static String PREF_RECENT_5 ="sharedpreferencesrecent5";
+    private ArrayList<String> recents;
 
     @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -77,6 +86,8 @@ public class SampleChooserActivity extends Activity {
         }
       }
     });
+
+
   }
 
     @Override
@@ -87,12 +98,86 @@ public class SampleChooserActivity extends Activity {
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+
+
+        // Building menuitems for the first time
+        if(menu.size()==1){
+            menu.clear();
+            menu.add(0,100,1,"Open DASH URL ...");
+            menu.add(0,0,2,null);
+            menu.add(0,1,3,null);
+            menu.add(0,2,4,null);
+            menu.add(0,3,5,null);
+            menu.add(0,4,6,null);
+        }
+
+        // Updating menuitems
+        MenuItem m;
+        for(int i=0;i<5;i++){
+            m = menu.findItem(i);
+            m.setTitle(urlStringShortener(recents.get(i)));
+            if(recents.get(i).equalsIgnoreCase("-"))
+                m.setEnabled(false);
+            else m.setEnabled(true);
+        }
+
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    public String urlStringShortener(String s){
+        if(s==null)
+            return s;
+        if(s.length()<30)
+            return s;
+        StringBuffer s2 = new StringBuffer();
+        s2.append("..."+s.substring(s.length()-26,s.length()));
+        return s2.toString();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId()==R.id.action_open){
+        //Open
+        if(item.getItemId()==100){
             Intent i = new Intent(SampleChooserActivity.this, OpenActivity.class);
             startActivityForResult(i,OPEN_DIALOG);
         }
+        //Recent urls (1-5)(id:11-15)
+        else if(item.getItemId()>=0 && item.getItemId()<5){
+
+            Sample s = new Sample("dialog sample", "09",
+                    recents.get(item.getItemId()), DemoUtil.TYPE_DASH, false, true);
+
+            //Open sample
+            onSampleSelected(s);
+        }
         return true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // Read shared preferences of recent urls
+        SharedPreferences sp = getSharedPreferences("Settings",MODE_PRIVATE);
+        recents = new ArrayList<>();
+        recents.add(0,sp.getString(PREF_RECENT_1, "-"));
+        recents.add(1,sp.getString(PREF_RECENT_2, "-"));
+        recents.add(2,sp.getString(PREF_RECENT_3,"-"));
+        recents.add(3,sp.getString(PREF_RECENT_4,"-"));
+        recents.add(4, sp.getString(PREF_RECENT_5, "-"));
+    }
+
+    public void saveRecents(){
+        // Save shared preferences of recent urls
+        SharedPreferences sp = getSharedPreferences("Settings",MODE_PRIVATE);
+        SharedPreferences.Editor e = sp.edit();
+        e.putString(PREF_RECENT_1,recents.get(0));
+        e.putString(PREF_RECENT_2,recents.get(1));
+        e.putString(PREF_RECENT_3,recents.get(2));
+        e.putString(PREF_RECENT_4,recents.get(3));
+        e.putString(PREF_RECENT_5,recents.get(4));
+        e.commit();
     }
 
     @Override
@@ -100,6 +185,19 @@ public class SampleChooserActivity extends Activity {
         if(requestCode == OPEN_DIALOG && resultCode == RESULT_OK){
             Sample s = new Sample("dialog sample", "09",
                     data.getStringExtra("url"), DemoUtil.TYPE_DASH, false, true);
+
+            //Updating recents list
+            ArrayList<String> a = new ArrayList<>();
+            a.add(0,data.getStringExtra("url"));
+            a.add(1,recents.get(0));
+            a.add(2,recents.get(1));
+            a.add(3,recents.get(2));
+            a.add(4,recents.get(3));
+            recents = a;
+            saveRecents();
+            invalidateOptionsMenu();
+
+            //Open sample
             onSampleSelected(s);
         }
     }
