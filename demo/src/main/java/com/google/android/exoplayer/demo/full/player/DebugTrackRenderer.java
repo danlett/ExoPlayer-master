@@ -22,7 +22,11 @@ import com.google.android.exoplayer.TrackRenderer;
 import com.google.android.exoplayer.chunk.ChunkSampleSource;
 import com.google.android.exoplayer.chunk.Format;
 
+import android.util.Log;
 import android.widget.TextView;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * A {@link TrackRenderer} that periodically updates debugging information displayed by a
@@ -73,9 +77,13 @@ import android.widget.TextView;
   @Override
   protected void doSomeWork(long positionUs, long elapsedRealtimeUs) throws ExoPlaybackException {
     maybeFail();
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
+    Date date = new Date();
     if (positionUs < currentPositionUs || positionUs > currentPositionUs + 1000000) {
       currentPositionUs = positionUs;
       textView.post(this);
+      LoggerSingleton.getInstance().log.append(simpleDateFormat.format(date).toString()+" "+positionUs/1000000.0+" "+LoggerSingleton.getInstance().bufferLength+"\r\n");
+      Log.d("","Playback pos: "+positionUs/1000000.0+" bufpos("+LoggerSingleton.getInstance().bufferLength+")");
     }
   }
 

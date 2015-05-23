@@ -26,8 +26,10 @@ import android.media.MediaCodec.CryptoException;
 import android.os.SystemClock;
 import android.util.Log;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.NumberFormat;
+import java.util.Date;
 import java.util.Locale;
 
 /**
@@ -58,6 +60,7 @@ public class EventLogger implements DemoPlayer.Listener, DemoPlayer.InfoListener
 
   public void endSession() {
     Log.d(TAG, "end [" + getSessionTimeString() + "]");
+
   }
 
   // DemoPlayer.Listener

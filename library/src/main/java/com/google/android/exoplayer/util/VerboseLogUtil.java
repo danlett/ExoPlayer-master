@@ -21,7 +21,7 @@ package com.google.android.exoplayer.util;
 public class VerboseLogUtil {
 
   private static volatile String[] enabledTags;
-  private static volatile boolean enableAllTags;
+  private static volatile boolean enableAllTags =true;
 
   private VerboseLogUtil() {
     // Private constructor to prevent instantiation.
@@ -43,8 +43,9 @@ public class VerboseLogUtil {
    * @param enable True if all logging should be enabled; false if only tags enabled by
    *     setEnabledTags should have logging enabled.
    */
+  // Modified to true
   public static void setEnableAllTags(boolean enable) {
-    enableAllTags = enable;
+    enableAllTags = true;
   }
 
   /**

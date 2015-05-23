@@ -165,7 +165,7 @@ public class SampleChooserActivity extends Activity {
         recents.add(1,sp.getString(PREF_RECENT_2, "-"));
         recents.add(2,sp.getString(PREF_RECENT_3,"-"));
         recents.add(3,sp.getString(PREF_RECENT_4,"-"));
-        recents.add(4, sp.getString(PREF_RECENT_5, "-"));
+        recents.add(4,sp.getString(PREF_RECENT_5, "-"));
     }
 
     public void saveRecents(){

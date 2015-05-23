@@ -38,6 +38,7 @@ import android.content.Intent;
 import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Display;
@@ -56,7 +57,11 @@ import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.TextView;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * An activity that plays media using {@link DemoPlayer}.
@@ -157,6 +162,7 @@ public class FullPlayerActivity extends Activity implements SurfaceHolder.Callba
   public void onDestroy() {
     super.onDestroy();
     releasePlayer();
+
   }
 
   // OnClickListener methods
@@ -223,6 +229,28 @@ public class FullPlayerActivity extends Activity implements SurfaceHolder.Callba
       player.release();
       player = null;
       eventLogger.endSession();
+      LoggerSingleton.getInstance().log.append("----------------------------\r\n");
+      LoggerSingleton.getInstance().log.append("Log ended: " + new Date().toString());
+
+      //Write logs to file
+      File filesDir = Environment.getExternalStorageDirectory();
+      FileOutputStream f = null;
+      try {
+        f = new FileOutputStream(filesDir.getAbsolutePath()+"/"+LoggerSingleton.getInstance().logFileName+".txt");
+        Log.d("",filesDir.getAbsolutePath()+"/"+LoggerSingleton.getInstance().logFileName+".txt");
+        f.write(LoggerSingleton.getInstance().log.toString().getBytes());
+      }catch (Exception e){
+        e.printStackTrace();
+      } finally {
+        if(f!=null){
+          try {
+            f.close();
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
+        }
+      }
+
       eventLogger = null;
     }
   }

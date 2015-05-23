@@ -90,9 +90,10 @@ public class OkHttpDataSource implements DataSource {
         if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
 
         responseHeaders = response.headers();
+        /*
         for (int i = 0; i < responseHeaders.size(); i++) {
             System.out.println(responseHeaders.name(i) + ": " + responseHeaders.value(i));
-        }
+        }*/
         dataLength=Long.parseLong(responseHeaders.get("Content-Length"));
         inputStream = response.body().byteStream();
 

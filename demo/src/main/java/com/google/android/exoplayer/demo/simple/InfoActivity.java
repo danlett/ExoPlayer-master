@@ -17,11 +17,13 @@ public class InfoActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info);
         EditText t = (EditText) findViewById(R.id.textInfoWindow);
-        t.setText("Media codec information:\n"+LoggerSingleton.getInstance().videoCodec
-                +" "+LoggerSingleton.getInstance().audioCodec
-        +"\n\nAvailable video formats:\n");
-        for(int i=0;i<LoggerSingleton.getInstance().availableFormats.length;i++)
-            t.append(LoggerSingleton.getInstance().availableFormats[i]);
+        t.setText("Media codec information:\n" + LoggerSingleton.getInstance().videoCodec
+                + " " + LoggerSingleton.getInstance().audioCodec
+                + "\n\nAvailable video formats:\n");
+        if(LoggerSingleton.getInstance().availableFormats!=null) {
+            for (int i = 0; i < LoggerSingleton.getInstance().availableFormats.length; i++)
+                t.append(LoggerSingleton.getInstance().availableFormats[i]);
+        }
         t.append(
         "\nIdeal format:\n"+LoggerSingleton.getInstance().idealFormat+
         "\n\nCurrent format:\n"+LoggerSingleton.getInstance().currentFormat+

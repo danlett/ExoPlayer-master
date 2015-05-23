@@ -21,6 +21,10 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 
+import com.google.android.exoplayer.util.SystemClock;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
@@ -53,6 +57,13 @@ import java.util.concurrent.CopyOnWriteArraySet;
   @SuppressLint("HandlerLeak")
   public ExoPlayerImpl(int rendererCount, int minBufferMs, int minRebufferMs) {
     Log.i(TAG, "Init " + ExoPlayerLibraryInfo.VERSION);
+    LoggerSingleton.getInstance().log.append("ExoPlayer generated log file\r\n");
+    LoggerSingleton.getInstance().log.append("ExoPlayer version " + ExoPlayerLibraryInfo.VERSION+"\r\n");
+    Date date = new Date();
+    LoggerSingleton.getInstance().log.append("Log started: " + date.toString()+"\r\n");
+    LoggerSingleton.getInstance().log.append("----------------------------\r\n");
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy_MM_dd__HH_mm_ss");
+    LoggerSingleton.getInstance().logFileName = "exoplayer_log_"+simpleDateFormat.format(date);
     this.playbackState = STATE_IDLE;
     this.listeners = new CopyOnWriteArraySet<Listener>();
     this.rendererEnabledFlags = new boolean[rendererCount];

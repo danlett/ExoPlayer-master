@@ -127,7 +127,7 @@ public interface ExoPlayer {
      */
     public static ExoPlayer newInstance(int rendererCount, int minBufferMs, int minRebufferMs) {
       // Drop previous LoggerSingleton instance
-      LoggerSingleton.mInstance=null;
+      LoggerSingleton.instance =null;
       LoggerSingleton.getInstance().minBufferTime=DEFAULT_MIN_BUFFER_MS+" msec";
       return new ExoPlayerImpl(rendererCount, minBufferMs, minRebufferMs);
     }

@@ -4,7 +4,7 @@ package com.google.android.exoplayer;
  * Created by Dani on 2015.04.07..
  */
 public class LoggerSingleton {
-    public static LoggerSingleton mInstance= null;
+    public static LoggerSingleton instance = null;
 
     public String bufferLength;
     public String currentFormat;
@@ -14,13 +14,15 @@ public class LoggerSingleton {
     public String idealFormat;
     public String minBufferTime;
     public int forcedFormat=-1;
+    public StringBuilder log = new StringBuilder();
+    public String logFileName;
 
     protected LoggerSingleton(){}
 
     public static synchronized LoggerSingleton getInstance(){
-        if(null == mInstance){
-            mInstance = new LoggerSingleton();
+        if(null == instance){
+            instance = new LoggerSingleton();
         }
-        return mInstance;
+        return instance;
     }
 }
